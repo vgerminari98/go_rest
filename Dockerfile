@@ -1,18 +1,13 @@
-# Use Go 1.23.3 com base Alpine
 FROM golang:1.23.3-alpine
 
-# Instale dependências necessárias
 RUN apk update && apk add --no-cache ca-certificates git
 
-# Configure o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copie o go.mod e go.sum antes de instalar as dependências
 COPY go.mod ./ 
 COPY go.sum ./ 
 RUN go mod download
 
-# Copie o restante do código da aplicação
 COPY . .
 
 # Compile o binário do servidor com um nome fixo
