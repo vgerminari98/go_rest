@@ -1,6 +1,7 @@
 FROM golang:1.23.3-alpine
 
-RUN apk update && apk add --no-cache ca-certificates git
+RUN apk update && apk add --no-cache ca-certificates git curl && \
+    go install github.com/swaggo/swag/cmd/swag@latest
 
 WORKDIR /app
 
@@ -10,11 +11,12 @@ RUN go mod download
 
 COPY . .
 
+RUN swag init -g ./cmd/server/main.go -o ./docs
+
 RUN go build -o ./cmd/binary/server ./cmd/server/main.go
 
 RUN chmod -R 755 ./cmd/binary
 
 EXPOSE 8080
 
-# Execute o binário fixo
 CMD ["./cmd/binary/server"]
