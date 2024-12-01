@@ -1,5 +1,7 @@
 package main
 
+// importação das libs
+
 import (
 	"log"
 	"net/http"
@@ -7,17 +9,17 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// HealthHandler responde com o status do servidor
+// rota de health
 func HealthHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
 }
 
 func main() {
-	// Cria um novo roteador
+	// função responsável por gerenciar a rota
 	router := mux.NewRouter()
 
-	// Define a rota de health check
+	// Define a rota de health e define meteodo de chamado
 	router.HandleFunc("/health", HealthHandler).Methods("GET")
 
 	// Inicia o servidor
